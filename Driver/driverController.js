@@ -231,7 +231,7 @@ const loginDriver = (req, res) => {
 //View all orders for drivers
   
   const viewPendingOrdesForDrivers=(req,res)=>{
-    LuggageSchema.find({mid:req.params.id,driverstatus:"pending"}).exec()
+    LuggageSchema.find({mid:req.params.id,driverstatus:"pending",status:"approved"}).exec()
     .then(data=>{
       
       res.json({
@@ -479,6 +479,41 @@ const removeDriverById=async(req,res)=>{
 }
 
 
+// search Divers
+
+const searchdriversByName = (req, res) => {
+  // let mover=(req.params.moverName).toLowercase()
+  console.log("mn",req.params.driverName);
+  driverSchema.find({ name: { $regex: req.params.driverName, $options: 'i' }})
+      .then(services => {
+          if (services.length === 0) {
+              return res.json({ status:401,message: 'No Drivers found with the Name.' });
+          }
+          res.json({status:200,services});
+      })
+      .catch(err => {
+          console.error(err);
+          res.json({ status:500,message: 'Server Error' });
+      });
+}
+
+
+const searchdriversByNameandMid=(req, res) => {
+  // let mover=(req.params.moverName).toLowercase()
+  console.log("mn",req.params.driverName);
+  driverSchema.find({ name: { $regex: req.params.driverName, $options: 'i' },mid:req.params.mid})
+      .then(services => {
+          if (services.length === 0) {
+              return res.json({ status:401,message: 'No Drivers found with the Name.' });
+          }
+          res.json({status:200,services});
+      })
+      .catch(err => {
+          console.error(err);
+          res.json({ status:500,message: 'Server Error' });
+      });
+}
+
 module.exports={registerDriver,deleteDriverById,editDriverById,viewDriverById,viewDrivers,
   loginDriver,
   acceptorderbyDriverId,
@@ -492,5 +527,7 @@ module.exports={registerDriver,deleteDriverById,editDriverById,viewDriverById,vi
   viewCurrentLocationUpdatesByMoverid,
   viewAllLocationUpdatesByMoverid,
   getLocUpdatesById,
-  removeDriverById
+  removeDriverById,
+  searchdriversByName,
+  searchdriversByNameandMid
 }

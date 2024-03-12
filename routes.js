@@ -16,6 +16,9 @@ router.post('/viewPackerById/:id',packercontroller.viewPackerById)//done
 router.post('/checkAuth',packercontroller.requireAuth)
 router.post('/deletePackerById/:id',packercontroller.deletePackerById)//done
 router.post('/forgotPwdPacker',packercontroller.forgotPassword)//done
+router.post('/searchPackersByName/:packerName',packercontroller.searchPackersByName)//done
+
+
 //luggage related
 router.post('/addLuggage',packercontroller.addLuggage)//done
 router.post('/viewBooking/:id',packercontroller.viewOrderById)
@@ -84,6 +87,9 @@ router.post('/viewCurrentLocationUpdatesByMoverid',driverController.viewCurrentL
 router.post('/viewAllLocationUpdatesByMoverid',driverController.viewAllLocationUpdatesByMoverid) // view all by mover id
 router.post('/getLocUpdatesById/:id',driverController.getLocUpdatesById) // get loc update by id---user
 router.post('/removeDriverById/:id',driverController.removeDriverById)
+router.post('/searchdriversByName/:driverName',driverController.searchdriversByName)
+router.post('/searchdriversByNameandMid/:driverName/:mid',driverController.searchdriversByNameandMid)
+
 module.exports=router
 
 

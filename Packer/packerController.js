@@ -532,5 +532,23 @@ const trackMyLuggage=(req,res)=>{
 }
 
 
+// search movers
+
+const searchPackersByName = (req, res) => {
+  // let mover=(req.params.moverName).toLowercase()
+  console.log("mn",req.params.packerName);
+  packers.find({ name: { $regex: req.params.packerName, $options: 'i' },isactive:true })
+      .then(services => {
+          if (services.length === 0) {
+              return res.json({ status:401,message: 'No Packers found with the Name.' });
+          }
+          res.json({status:200,services});
+      })
+      .catch(err => {
+          console.error(err);
+          res.json({ status:500,message: 'Server Error' });
+      });
+}
 module.exports={registerPacker,viewPackerById,login,viewPackers,forgotPassword,deletePackerById,
-  editPackerById,viewOrderByPackerId,requireAuth,addLuggage,viewOrderById,deleteOrderById,trackMyLuggage}
+  editPackerById,viewOrderByPackerId,requireAuth,addLuggage,viewOrderById,deleteOrderById,trackMyLuggage,
+searchPackersByName}
